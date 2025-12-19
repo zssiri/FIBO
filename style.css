@@ -13,7 +13,6 @@ body {
 .header {
     border-bottom: #E2E2E9 solid 1.5px;
     padding-block: 20px;
-    margin-bottom: 30px;
 }
 
 .header__container {
@@ -22,7 +21,9 @@ body {
     align-items: center;
 }
 
-.souces__block {
+
+.souces__block,
+.souces {
     margin-block: 30px;
 }
 
@@ -87,7 +88,7 @@ body {
     font-weight: 700;
 }
 
-.info{
+.info {
     margin-block: 60px;
 }
 
@@ -137,7 +138,7 @@ body {
     width: 100%;
     height: 150px;
     opacity: 1;
-    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1)100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1)100%);
     transition: opacity 1s ease, height 1s ease 0.3s;
 }
 
@@ -152,7 +153,8 @@ body {
 }
 
 .info__button,
-.header__button {
+.header__button,
+.korzina__button {
     background: #F7D22D;
     border-radius: 8px;
     padding: 12px 32px;
@@ -161,10 +163,19 @@ body {
     font-weight: 700;
     cursor: pointer;
     transition-duration: .3s;
+    text-decoration: none;
+    color: #0e0c0d;
+}
+
+.korzina__button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .info__button:hover,
-.header__button:hover {
+.header__button:hover,
+.korzina__button:hover {
     background: #fae37b;
 }
 
@@ -285,4 +296,261 @@ body {
 .show-popup:hover {
     background: #fae37b;
     border: 1px solid #F7D22D;
+}
+
+.cart__container {
+    width: calc(100% - 60px * 2);
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.cart__title {
+    color: #F7D22D;
+    font-weight: 800;
+    font-size: 36px;
+    padding: 40px 0 28px;
+    margin: 0;
+}
+
+.cart__list {
+    border-top: 1px solid #eee;
+}
+
+.cart__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart__item-left {
+    display: flex;
+    gap: 16px;
+    max-width: 70%;
+}
+
+.cart__item-image {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart__item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart__item-name {
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 89%;
+    color: #0e0c0d;
+}
+
+.cart__item-desc {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 146%;
+    color: #686466;
+}
+
+.cart__item-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart__item-price {
+    font-weight: 800;
+    font-size: 24px;
+    color: #f7d22d;
+    white-space: nowrap;
+}
+
+.cart__counter {
+    display: flex;
+    align-items: center;
+    background: #f5f6f8;
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+.cart__counter-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    background: none;
+}
+
+.cart__counter-value {
+    font-weight: 600;
+    font-size: 16px;
+    min-width: 30px;
+    text-align: center;
+}
+
+.cart__remove {
+    width: 36px;                  /* размер кнопки */
+    height: 36px;
+    background: transparent;      /* без фона */
+    border: 2px solid #ccc;       /* тонкая серая граница */
+    border-radius: 50%;           /* идеальный круг */
+    font-size: 20px;              /* размер X */
+    font-weight: normal;
+    color: #aaa;                  /* серый крестик */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;    /* плавный переход */
+}
+
+.cart__remove:hover {
+    border-color: #f7d22d;        /* жёлтая граница при наведении */
+    color: #f7d22d;               /* жёлтый крестик при наведении */
+}
+
+.cart__promo-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-top: 40px;
+}
+
+.cart__promo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.cart__promo-title {
+    font-weight: 700;
+    font-size: 24px;
+    color: #ff2e65;
+    margin-bottom: 12px;
+}
+
+.cart__promo-form {
+    display: flex;
+    gap: 0;
+    max-width: 420px;
+    margin-top: 8px;
+}
+
+.cart__promo-form input {
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px 0 0 8px;
+    font-size: 16px;
+}
+
+.cart__promo-form button {
+    background: #f7d22d;
+    color: black;
+    font-weight: 700;
+    padding: 0 24px;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+}
+
+.cart__summary {
+    padding-bottom: 5px;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 71%;
+    color: #0e0c0d;
+}
+
+.cart__total {
+    font-weight: 800;
+    font-size: 36px;
+    text-align: right;
+    color: #f7d22d;
+}
+
+.cart__subtitle {
+    margin: 48px 0 24px;
+    font-weight: 800;
+    font-size: 32px;
+    color: #f7d22d;
+}
+
+.cart__subtitle {
+    margin: 48px 0 24px;
+    font-weight: 800;
+    font-size: 32px;
+    color: #f7d22d;
+}
+
+.cart__form {
+    display: grid;
+    gap: 24px;
+}
+
+.cart__form-item {
+    display: flex;
+    align-items: center;
+    gap: 120px;
+    font-weight: 600;
+    font-size: 17px;
+    color: #231f20;
+    opacity: 0.7;
+}
+
+.cart__form-item span {
+    width: 120px;
+    text-align: left;
+}
+
+.cart__form-item input {
+    padding: 16px 20px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+    width: 570px;
+    color: #0e0c0d;
+}
+
+.cart__actions {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cart__back {
+    font-weight: 700;
+    font-size: 15px;
+    color: #696f7a;
+    text-decoration: none;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.cart__submit {
+    background: #f7d22d;
+    color: black;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 16px 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
