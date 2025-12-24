@@ -1,246 +1,218 @@
 let textClose = 'Скрыть';
-let buttonInfo = document.querySelector('.info__button');
-if (buttonInfo != null) {
-    buttonInfo.addEventListener('click', function () {
-        let textBlock = document.querySelector('.info__text');
-        textBlock.classList.toggle('info__text--active');
+let hasDiscount = false;
 
-        let temp = buttonInfo.textContent;
-        buttonInfo.textContent = textClose;
-        textClose = temp;
+const buttonInfo = document.querySelector('.info__button');
+if (buttonInfo) {
+    buttonInfo.addEventListener('click', function () {
+        const textBlock = document.querySelector('.info__text');
+        if (textBlock) {
+            textBlock.classList.toggle('info__text--active');
+
+            const temp = buttonInfo.textContent;
+            buttonInfo.textContent = textClose;
+            textClose = temp;
+        }
     });
 }
 
-let popupWindow = document.querySelector('.popup');
 document.addEventListener('DOMContentLoaded', function () {
-    let openPopupBtn = document.querySelector('.show-popup');
-    if (openPopupBtn) {
+
+    const popupWindow = document.querySelector('.popup');
+    const openPopupBtn = document.querySelector('.show-popup');
+
+    if (openPopupBtn && popupWindow) {
         openPopupBtn.onclick = function () {
             document.body.classList.add('no-scroll');
             popupWindow.classList.add('popup--show');
-            setTimeout(function () {
-                popupWindow.classList.add('popup--active');
-            }, 10);
+            setTimeout(() => popupWindow.classList.add('popup--active'), 10);
         };
     }
 
-    let closePopupBtn = document.querySelector('.popup__close');
-    if (closePopupBtn) {
+    const closePopupBtn = document.querySelector('.popup__close');
+    if (closePopupBtn && popupWindow) {
         closePopupBtn.onclick = function () {
             popupWindow.classList.remove('popup--active');
-            setTimeout(function () {
+            setTimeout(() => {
                 popupWindow.classList.remove('popup--show');
                 document.body.classList.remove('no-scroll');
             }, 300);
         };
     }
 
-    let menuItems = ['Пицца', 'Паста', 'Супы', 'Салаты', 'Напитки', 'Десерты', 'Бакалея', 'Антипасти', 'Акции', 'Комбо', 'Контакты'];
-    let menuList = document.querySelector('.header__list');
-    if (menuList) {
-        let allLinks = '';
-        for (let i = 0; i < menuItems.length; i++) {
-            allLinks = allLinks + '<li class="header__link"><a href="#">' + menuItems[i] + '</a></li>';
-        }
-        menuList.innerHTML = allLinks;
-    }
-
-    let allSouces = [
-        { 
-            icon: "images/chees-souce.jpg",
-            title: "Сырный соус",
-            price: "от 120 ₽" 
-        },
-        { 
-            icon: "images/bbq-souce.jpg", 
-            title: "Барбекью", 
-            price: "от 120 ₽" 
-        },
-        { 
-            icon: "images/varenie-souce.jpg", 
-            title: "Варенье", 
-            price: "от 120 ₽" 
-        },
-        { 
-            icon: "images/ranch-souce.jpg", 
-            title: "Ранч", 
-            price: "от 120 ₽" 
-        },
-        { 
-            icon: "images/tartar-souce.jpg", 
-            title: "Тар-тар", 
-            price: "от 120 ₽" 
-        },
-        { 
-            icon: "images/chees-souce.jpg", 
-            title: "Сырный соус", 
-            price: "от 120 ₽" 
-        },
-        { 
-            icon: "images/tartar-souce.jpg", 
-            title: "Тар-тар", 
-            price: "от 120 ₽" 
-        }
+    const menuItems = [
+        'Пицца', 'Паста', 'Супы', 'Салаты', 'Напитки',
+        'Десерты', 'Бакалея', 'Антипасти', 'Акции', 'Комбо', 'Контакты'
     ];
 
-    let soucesBlock = document.querySelector('.souces__block');
-    if (soucesBlock) {
-        let cards = '';
-        for (let i = 0; i < allSouces.length; i++) {
-            cards += '<div class="souces__card">' +
-                '<img src="' + allSouces[i].icon + '" alt="souce">' +
-                '<p>' + allSouces[i].title + '</p>' +
-                '<p class="souces__price">' + allSouces[i].price + '</p>' +
-                '</div>';
-        }
-        soucesBlock.innerHTML = cards;
+    const menuList = document.querySelector('.header__list');
+    if (menuList) {
+        menuList.innerHTML = menuItems
+            .map(item => `<li class="header__link"><a href="#">${item}</a></li>`)
+            .join('');
     }
 
-    let productsInCart = [];
-    let totalSum = 0;
-    let promoDiscount = 0;
+    const allSouces = [
+        { icon: "images/chees-souce.jpg", title: "Сырный соус", price: "от 120 ₽" },
+        { icon: "images/bbq-souce.jpg", title: "Барбекью", price: "от 120 ₽" },
+        { icon: "images/varenie-souce.jpg", title: "Варенье", price: "от 120 ₽" },
+        { icon: "images/ranch-souce.jpg", title: "Ранч", price: "от 120 ₽" },
+        { icon: "images/tartar-souce.jpg", title: "Тар-тар", price: "от 120 ₽" },
+    ];
+
+    const soucesBlock = document.querySelector('.souces__block');
+    if (soucesBlock) {
+        soucesBlock.innerHTML = allSouces
+            .map(s => `
+                <div class="souces__card">
+                    <img src="${s.icon}" alt="${s.title}">
+                    <p>${s.title}</p>
+                    <p class="souces__price">${s.price}</p>
+                </div>
+            `)
+            .join('');
+    }
+
+    let cartItems = [];
+
+    cartItems = [
+        { name: "Пепперони", price: 890, quantity: 2, image: "https://via.placeholder.com/100", desc: "Классика" },
+        { name: "Маргарита",  price: 690, quantity: 1, image: "https://via.placeholder.com/100" }
+    ];
+    renderCart();
+
 
     fetch("https://example.shaklein.dev/cart/")
-        .then(function (response) {
-            return response.json();
+        .then(res => res.json())
+        .then(data => {
+            cartItems = data.cartItems || [];
+            renderCart();
         })
-        .then(function (data) {
-            productsInCart = data.cartItems;
-            drawCart();
+        .catch(err => {
+            console.error("Ошибка загрузки корзины:", err);
         });
 
-    function drawCart() {
-        let cartBlock = document.querySelector('.cart__list');
-        if (cartBlock == null) return;
+    function renderCart() {
+        const cartBlock = document.querySelector('.cart__list');
+        if (!cartBlock) return;
 
-        totalSum = 0;
-        let allHtml = '';
+        const cartHtml = cartItems.map((item, i) => `
+            <div class="cart__item" data-index="${i}">
+                <div class="cart__item-left">
+                    <img class="cart__item-image"
+                         src="${item.image}"
+                         alt="${item.name || 'Товар в корзине'}">
+                    <div class="cart__item-info">
+                        <div class="cart__item-name">${item.name}</div>
+                        ${item.desc ? `<div class="cart__item-desc">${item.desc}</div>` : ''}
+                    </div>
+                </div>
 
-        for (let i = 0; i < productsInCart.length; i++) {
-            let item = productsInCart[i];
-            let priceOne = item.price * item.quantity;
-            totalSum = totalSum + priceOne;
+                <div class="cart__item-right">
+                    <div class="cart__item-price">${item.price} ₽</div>
 
-            allHtml += '<div class="cart__item">' +
-                '<div class="cart__item-left">' +
-                '<img src="' + item.image + '" alt="" class="cart__item-image">' +
-                '<div class="cart__item-info">' +
-                '<div class="cart__item-name">' + item.name + '</div>' +
-                '<div class="cart__item-desc">' + item.desc + '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="cart__item-right">' +
-                '<div class="cart__item-price">' + item.price + ' ₽</div>' +
-                '<div class="cart__counter">' +
-                '<button class="cart__counter-btn minus" data-index="' + i + '">−</button>' +
-                '<span class="cart__counter-value">' + item.quantity + '</span>' +
-                '<button class="cart__counter-btn plus" data-index="' + i + '">+</button>' +
-                '</div>' +
-                '<button class="cart__remove" data-index="' + i + '">✕</button>' +
-                '</div>' +
-                '</div>';
-        }
+                    <div class="cart__counter">
+                        <button class="cart__counter-btn minus" type="button">-</button>
+                        <span class="cart__counter-value">${item.quantity}</span>
+                        <button class="cart__counter-btn plus" type="button">+</button>
+                    </div>
 
-        cartBlock.innerHTML = allHtml;
-        updateSum();
+                    <button class="cart__remove" type="button">✕</button>
+                </div>
+            </div>
+        `).join('');
+
+        cartBlock.innerHTML = cartHtml;
+        updateTotal();
     }
 
-    function updateSum() {
-        let finalPrice = totalSum - promoDiscount;
-        let totalText = document.querySelector('.cart__total');
-        if (totalText) {
-            totalText.textContent = finalPrice.toLocaleString() + ' ₽';
+    function updateTotal() {
+        let total = cartItems.reduce((sum, item) => {
+            return sum + item.price * item.quantity;
+        }, 0);
+
+        if (hasDiscount) {
+            total *= 0.9;
         }
 
-        let cartButtons = document.querySelectorAll('.cartTotalHTML');
-        for (let i = 0; i < cartButtons.length; i++) {
-            cartButtons[i].textContent = finalPrice;
-        }
+        document.querySelectorAll('.cartTotalHTML').forEach(el => {
+            el.textContent = total.toLocaleString('ru-RU') + ' ₽';
+        });
     }
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.cart__counter-btn, .cart__remove');
+        if (!btn) return;
 
-    document.addEventListener('click', function (event) {
-        let btnPlus = event.target.closest('.plus');
-        let btnMinus = event.target.closest('.minus');
-        let btnDelete = event.target.closest('.cart__remove');
+        const itemEl = btn.closest('.cart__item');
+        if (!itemEl) return;
 
-        if (btnPlus || btnMinus || btnDelete) {
-            let index = (btnPlus || btnMinus || btnDelete).getAttribute('data-index');
-            let product = productsInCart[index];
+        const index = Number(itemEl.dataset.index);
+        if (isNaN(index) || !cartItems[index]) return;
 
-            if (btnPlus) {
-                product.quantity = product.quantity + 1;
-                totalSum = totalSum + product.price;
-            }
-
-            if (btnMinus && product.quantity > 0) {
-                product.quantity = product.quantity - 1;
-                totalSum = totalSum - product.price;
-            }
-
-            if (btnDelete) {
-                totalSum = totalSum - (product.price * product.quantity);
-                productsInCart.splice(index, 1);
-            }
-
-            drawCart();
-            updateSum();
+        if (btn.classList.contains('plus')) {
+            cartItems[index].quantity++;
         }
+        else if (btn.classList.contains('minus')) {
+            cartItems[index].quantity--;
+            if (cartItems[index].quantity <= 0) {
+                cartItems.splice(index, 1);
+            }
+        }
+        else if (btn.classList.contains('cart__remove')) {
+            cartItems.splice(index, 1);
+        }
+
+        renderCart(); 
     });
 
-    let applyPromoBtn = document.querySelector('.cart__promo-form button');
-    if (applyPromoBtn) {
-        applyPromoBtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            let promoInput = document.querySelector('.cart__promo-form input');
-            let code = promoInput.value;
+    const promoBtn = document.querySelector('.cart__promo-form button');
+    if (promoBtn) {
+        promoBtn.addEventListener('click', function (e) {
+            e.preventDefault();
 
-            if (code === '777') {
-                promoDiscount = Math.round(totalSum * 0.1);
-                alert('Ура! Промокод 777 сработал — скидка 10%!');
+            const input = document.querySelector('.cart__promo-form input');
+            if (!input) return;
+
+            hasDiscount = false;
+
+            if (input.value.trim() === '777') {
+                hasDiscount = true;
+                alert('Скидка 10% применена!');
             } else {
-                promoDiscount = 0;
-                alert('Промокод не подходит :(');
+                alert('Неверный промокод');
             }
 
-            promoInput.value = '';
-            updateSum();
+            input.value = '';
+            updateTotal();
         });
     }
 
-    let orderBtn = document.querySelector('.cart__submit');
+    const orderBtn = document.querySelector('.cart__submit');
     if (orderBtn) {
-        orderBtn.onclick = function () {
-            let nameField = document.querySelector('input[value="Илья"]');
-            let phoneField = document.querySelector('input[type="tel"]');
-            let emailField = document.querySelector('input[type="email"]');
+        orderBtn.addEventListener('click', function () {
+            const name  = document.querySelector('input[name="name"]')?.value?.trim();
+            const phone = document.querySelector('input[name="phone"]')?.value?.trim();
+            const email = document.querySelector('input[name="email"]')?.value?.trim();
 
-            let name = nameField.value;
-            let phone = phoneField.value;
-            let email = emailField.value;
-
-            if (name === '' || phone === '' || email === '') {
-                alert('Пожалуйста, заполни все поля!');
+            if (!name || !phone || !email) {
+                alert('Заполните все обязательные поля');
                 return;
             }
 
             fetch("https://example.shaklein.dev/cart/", {
                 method: "POST",
-                headers: { "Content-Type": "application/json;charset=utf-8" },
-                body: JSON.stringify({
-                    cartItems: productsInCart,
-                    name: name,
-                    phone: phone,
-                    email: email
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, phone, email, cartItems })
             })
-                .then(function (res) { return res.json(); })
-                .then(function (result) {
-                    console.log(result);
-                    alert('Заказ отправлен! Скоро с вами свяжутся :)');
+                .then(res => res.json())
+                .then(() => {
+                    alert('Заказ успешно отправлен!');
+                    cartItems = [];           
+                    renderCart();
                 })
-                .catch(function () {
-                    alert('Что-то пошло не так... Попробуй позже');
+                .catch(err => {
+                    console.error(err);
+                    alert('Ошибка при отправке заказа');
                 });
-        };
+        });
     }
 });

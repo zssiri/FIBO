@@ -397,24 +397,24 @@ body {
 }
 
 .cart__remove {
-    width: 36px;                  /* размер кнопки */
+    width: 36px;                 
     height: 36px;
-    background: transparent;      /* без фона */
-    border: 2px solid #ccc;       /* тонкая серая граница */
-    border-radius: 50%;           /* идеальный круг */
-    font-size: 20px;              /* размер X */
+    background: transparent;     
+    border: 2px solid #ccc;      
+    border-radius: 50%;           
+    font-size: 20px;            
     font-weight: normal;
-    color: #aaa;                  /* серый крестик */
+    color: #aaa;                
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;    /* плавный переход */
+    transition: all 0.3s ease;   
 }
 
 .cart__remove:hover {
-    border-color: #f7d22d;        /* жёлтая граница при наведении */
-    color: #f7d22d;               /* жёлтый крестик при наведении */
+    border-color: #f7d22d;        
+    color: #f7d22d;              
 }
 
 .cart__promo-summary {

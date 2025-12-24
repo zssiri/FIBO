@@ -14,7 +14,6 @@
             <img src="images/FIBO-logo.png" alt="FIBO-logo" class="header__logo">
             <nav class="header__nav">
                 <ul class="header__list">
-                    <!-- Меню будет вставлено через JavaScript -->
                 </ul>
             </nav>
             <a href="cart.html" class="korzina__button">
@@ -31,11 +30,7 @@
             <div class="cart__container">
                 <h1 class="cart__title">Корзина</h1>
 
-                <!-- Товары корзины будут вставлены сюда через JavaScript -->
                 <div class="cart__list">
-                    <!-- Пример товара (удалить, когда JS работает):
-                    <div class="cart__item">...</div>
-                    -->
                 </div>
 
                 <div class="cart__promo-summary">
@@ -49,7 +44,7 @@
 
                     <div class="cart__summary">
                         <span>Сумма заказа:</span>
-                        <span class="cart__total">0 ₽</span>
+                        <span class="cart__total cartTotalHTML">0</span>
                     </div>
                 </div>
 
@@ -58,17 +53,17 @@
                 <form class="cart__form">
                     <label class="cart__form-item">
                         <span>Имя</span>
-                        <input type="text" value="Илья" required>
+                        <input type="text" value="Илья"  name="name">
                     </label>
 
                     <label class="cart__form-item">
                         <span>Телефон</span>
-                        <input type="tel" value="+7 777 777 77 77" required>
+                        <input type="tel" value="+7 777 777 77 77" name="phone">
                     </label>
 
                     <label class="cart__form-item">
                         <span>Email</span>
-                        <input type="email" value="email@mail.ru" required>
+                        <input type="email" value="email@mail.ru" name="email">
                     </label>
                 </form>
 
